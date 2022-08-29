@@ -14,6 +14,7 @@ def run(proj, OG):
             
             OG.add('fastq',smId, {'bamfile':bamF})
             OG.add('sample',smId, {}, deps=[OG['fastq',smId]])
+            OG.add('bridges',smId, {}, deps=[OG['sample',smId]])
 
-        
-        
+    OG.add('population', 'o', {}, deps=OG['bridges'])    
+    

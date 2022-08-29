@@ -6,7 +6,7 @@ rule sorted:
   params: t=8
   log: **LFS('sorted')
   benchmark: B('sorted')
-  shell: 'samtools sort -n -@ {params.t} {input} -o {output} 2>log.E'
+  shell: 'samtools sort -n -@ {params.t} {input} -o {output} 2>{log.E}'
 
 rule fastq:
   input: T('sample_sorted.bam')
