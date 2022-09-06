@@ -7,14 +7,19 @@ def run(proj, OG):
     bamdir = proj.parameters['bamfiles']
     
     for i,r in families.iterrows():
+        #print(i,r)
+        #print('len(r):', len(r))
         N = int((len(r)-1)/3)
+        #print('N:', N)
         for id in range(N):
+            #print('id:', id)
             smId = r[f'samId_{id}']
-            bamF = f'{bamdir}/{smId}/sample_mdup_cs.bam'
-            
-            OG.add('fastq',smId, {'bamfile':bamF})
-            OG.add('sample',smId, {}, deps=[OG['fastq',smId]])
-            OG.add('bridges',smId, {}, deps=[OG['sample',smId]])
+            if not pd.isna(smId):
+                bamF = f'{bamdir}/{smId}/sample_mdup_cs.bam'
+                #print(smId)
+                OG.add('fastq',smId, {'bamfile':bamF})
+                OG.add('sample',smId, {}, deps=[OG['fastq',smId]])
+                OG.add('bridges',smId, {}, deps=[OG['sample',smId]])
 
     OG.add('population', 'o', {}, deps=OG['bridges'])    
     

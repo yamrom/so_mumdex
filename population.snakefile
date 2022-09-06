@@ -12,9 +12,10 @@ rule chromosome:
     output: T('{c}.txt') 
     log: **LFS('{c}.txt')
     benchmark: B('{c}.flag')
-    resources: mem_mb=10000
-    shell: 'population_bridges denovo {input.fam} bridges {ref} sample 0 chr1 \
-            1>{output} 2>{log.E} && touch {output}'
+    resources: mem_mb=180000
+    threads: 1
+    shell: 'population_bridges denovo {input.fam} bridges {ref} sample 0 {wildcards.c} \
+            1>{output} 2>{log.E}'
 
 rule pop:
     input: expand(TE('{c}.txt'), c=chrom)
